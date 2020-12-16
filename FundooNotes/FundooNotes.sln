@@ -3,7 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30711.63
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FundooNotes", "FundooNotes.csproj", "{0A341EC8-D14B-4AB2-942A-3B8C4C22CDF8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FundooNotes", "FundooNotes.csproj", "{0A341EC8-D14B-4AB2-942A-3B8C4C22CDF8}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FundooModelLayer", "..\FundooModelLayer\FundooModelLayer.csproj", "{9FEE1454-B239-42E4-B421-E2DF41847A22}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FundooServiceLayer", "..\FundooServiceLayer\FundooServiceLayer.csproj", "{89C4E38B-D2CA-45C3-A966-0F1F8B0C55F2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FundooRepositoryLayer", "..\FundooRepositoryLayer\FundooRepositoryLayer.csproj", "{3DCA0F3D-FBE6-4F1F-9882-A23B84A0F4CB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +21,18 @@ Global
 		{0A341EC8-D14B-4AB2-942A-3B8C4C22CDF8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0A341EC8-D14B-4AB2-942A-3B8C4C22CDF8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0A341EC8-D14B-4AB2-942A-3B8C4C22CDF8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9FEE1454-B239-42E4-B421-E2DF41847A22}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9FEE1454-B239-42E4-B421-E2DF41847A22}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9FEE1454-B239-42E4-B421-E2DF41847A22}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9FEE1454-B239-42E4-B421-E2DF41847A22}.Release|Any CPU.Build.0 = Release|Any CPU
+		{89C4E38B-D2CA-45C3-A966-0F1F8B0C55F2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{89C4E38B-D2CA-45C3-A966-0F1F8B0C55F2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{89C4E38B-D2CA-45C3-A966-0F1F8B0C55F2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{89C4E38B-D2CA-45C3-A966-0F1F8B0C55F2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3DCA0F3D-FBE6-4F1F-9882-A23B84A0F4CB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3DCA0F3D-FBE6-4F1F-9882-A23B84A0F4CB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3DCA0F3D-FBE6-4F1F-9882-A23B84A0F4CB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3DCA0F3D-FBE6-4F1F-9882-A23B84A0F4CB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
