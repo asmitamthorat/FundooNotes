@@ -6,14 +6,18 @@ using System.Text;
 
 namespace FundooModelLayer
 {
-     public class Lable
+    public class Collaborator
     {
         [Key]
-        public int LableId { get; set; }
-        public string Lables { get; set; }
+        public int CollaboratorId { get; set; }
+        public string Email { get; set; }
         public int NoteId { get; set; }
         [ForeignKey("NoteId")]
         public virtual Note Note { get; set; }
+
+        public int AccountId { get; set; }
+        [ForeignKey("AccountId")]
+        public virtual Account Account { get; set; }
 
     }
 }
