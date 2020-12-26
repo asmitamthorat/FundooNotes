@@ -7,9 +7,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FundooNotes", "FundooNotes.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FundooModelLayer", "..\FundooModelLayer\FundooModelLayer.csproj", "{9FEE1454-B239-42E4-B421-E2DF41847A22}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FundooServiceLayer", "..\FundooServiceLayer\FundooServiceLayer.csproj", "{89C4E38B-D2CA-45C3-A966-0F1F8B0C55F2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FundooServiceLayer", "..\FundooServiceLayer\FundooServiceLayer.csproj", "{89C4E38B-D2CA-45C3-A966-0F1F8B0C55F2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FundooRepositoryLayer", "..\FundooRepositoryLayer\FundooRepositoryLayer.csproj", "{3DCA0F3D-FBE6-4F1F-9882-A23B84A0F4CB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FundooRepositoryLayer", "..\FundooRepositoryLayer\FundooRepositoryLayer.csproj", "{3DCA0F3D-FBE6-4F1F-9882-A23B84A0F4CB}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cashing", "..\Cashing\Cashing.csproj", "{328F944D-0021-42B1-8C6B-F2638E798BDE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{3DCA0F3D-FBE6-4F1F-9882-A23B84A0F4CB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3DCA0F3D-FBE6-4F1F-9882-A23B84A0F4CB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3DCA0F3D-FBE6-4F1F-9882-A23B84A0F4CB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{328F944D-0021-42B1-8C6B-F2638E798BDE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{328F944D-0021-42B1-8C6B-F2638E798BDE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{328F944D-0021-42B1-8C6B-F2638E798BDE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{328F944D-0021-42B1-8C6B-F2638E798BDE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

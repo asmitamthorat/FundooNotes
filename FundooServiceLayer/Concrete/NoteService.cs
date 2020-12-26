@@ -14,8 +14,10 @@ namespace FundooServiceLayer
             _notesRepository = notesRepository;
         }
 
-        public List<Note> GetNotes(int AccountId)
+        public List<NotesViewModel> GetNotes(int AccountId)
         {
+          //  List<Note> notes= GetNotes(AccountId);
+            
             return _notesRepository.GetNotes( AccountId);
         }
 

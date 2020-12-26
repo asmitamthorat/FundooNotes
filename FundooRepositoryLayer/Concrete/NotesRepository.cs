@@ -15,9 +15,28 @@ namespace FundooRepositoryLayer
             _context = context;
         }
 
-        public List<Note> GetNotes(int AccountID) 
+        public List<NotesViewModel> GetNotes(int AccountID) 
         {
-            return _context.Note.OrderByDescending(Note => Note.IsPin).Where(Note => Note.AccountId == AccountID).ToList();
+            
+            var NoteViewModel = (from l in _context.Lable
+
+                                 join n in _context.Note on l.NoteId equals n.NoteId
+                                 where n.AccountId == AccountID && l.NoteId==n.NoteId
+                                 select new NotesViewModel
+                                 {
+                                    
+                                     NoteId = n.NoteId,
+                                     IsPin = n.IsPin,
+                                     Title = n.Title,
+                                     Description = n.Description,
+                                     Color = n.Color,
+                                     Image = n.Image,
+                                     Remainder = n.Remainder,
+                                     label = l.Lables
+                                
+                                 }).ToList();
+
+            return NoteViewModel;
         }
 
         public Note AddNote(int AccountId, Note note) 

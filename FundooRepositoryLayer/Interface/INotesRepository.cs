@@ -7,7 +7,7 @@ namespace FundooRepositoryLayer
 {
     public interface INotesRepository
     {
-        List<Note> GetNotes(int AccountID);
+        List<NotesViewModel> GetNotes(int AccountID);
         Note AddNote(int AccountId, Note note);
 
         Note GetNote(int AccountId, int NoteId);

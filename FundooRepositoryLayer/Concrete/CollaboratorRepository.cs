@@ -14,10 +14,30 @@ namespace FundooRepositoryLayer
             _context = context;
         }
 
-        public Collaborator AddCollaborator(int AccountId, int EmailId, Collaborator collaboratorModel) 
+        public Collaborator AddCollaborator(int AccountId, string EmailId, Collaborator collaboratorModel) 
         {
-
-            return collaboratorModel;
+            var result = _context.Collaborator.Add(collaboratorModel);
+            _context.SaveChanges();
+            return result.Entity;
         }
+
+        public int DeleteCollaborator(int CollaboratorId) 
+        {
+            Collaborator collaborator = _context.Collaborator.Find(CollaboratorId);
+            var result = _context.Collaborator.Remove(collaborator);
+            _context.SaveChanges();
+            return result.Entity.CollaboratorId;
+
+        }
+
+        public Collaborator GetCollaborator(int CollaboratorId) 
+        {
+            Collaborator collaborator = _context.Collaborator.Find(CollaboratorId);
+            //var result = _context.Collaborator.Remove(collaborator);
+            //_context.SaveChanges();
+            return collaborator;
+        }
+
+
     }
 }

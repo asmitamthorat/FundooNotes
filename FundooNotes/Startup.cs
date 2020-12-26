@@ -1,5 +1,9 @@
-﻿using FundooRepositoryLayer;
+﻿
+using Cashing;
+using FundooRepositoryLayer;
 using FundooServiceLayer;
+using FundooServiceLayer.EmailService;
+using FundooServiceLayer.MSMQService;
 using FundooServiceLayer.TokenAuthentification;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -11,7 +15,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
-using Swashbuckle.AspNetCore.Swagger;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,14 +34,35 @@ namespace FundooNotes
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            EmailConfiguration emailConfig = Configuration
+               .GetSection("EmailConfiguration")
+               .Get<EmailConfiguration>();
+
+            var cacheSettings = Configuration.GetSection("CacheSettings").Get<CacheSettings>();
+            services.AddSingleton(cacheSettings);
+            if (cacheSettings.IsEnabled)
+            {
+                services.AddStackExchangeRedisCache(options => options.Configuration = cacheSettings.ConnectionString);
+                services.AddSingleton<IResponseCacheService, ResponseCacheService>();
+            }
+
+            services.AddSingleton(emailConfig);
+           // services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             services.AddDbContext<FundooDBContext>(options=>options.UseSqlServer(Configuration.GetConnectionString("UserDbConnection")));
             services.AddScoped<INotesRepository, NotesRepository>();
             services.AddScoped<INoteService, NoteService>();
             services.AddScoped<IRegistrationRepository, RegistrationRepository>();
             services.AddScoped<IRegistrationService,RegistrationService>();
+            services.AddScoped<ILableRepository,LableRepository>();
+            services.AddScoped<ILableService,LableService>();
+            services.AddScoped<ICollaboratorRepository, CollaboratorRepository>();
+            services.AddScoped<ICollaboratorService, CollaboratorService>();
             services.AddScoped<ITokenManager, TokenManager>();
-            
+            services.AddScoped<IEmailSender, EmailSender>();
+            services.AddScoped<IMSMQ, MSMQ>();
+            services.AddScoped<IMSMQForMail, MSMQForMail>();
+            services.AddControllers();
+           
 
             services.AddCors(options => options.AddDefaultPolicy(
                 builder => builder.AllowAnyOrigin().AllowAnyHeader().AllowCredentials().AllowAnyMethod()
@@ -78,24 +102,26 @@ namespace FundooNotes
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+
+
+
+
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-                app.UseSwagger();
-                app.UseSwaggerUI(c =>
-                {
-                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "MyAPI V1");
-                });
-            }
-            else
-            {
-                app.UseHsts();
-            }
+            app.UseStaticFiles();
 
             app.UseHttpsRedirection();
-            app.UseMvc();
+
+            app.UseRouting();
+
+            app.UseSwagger();
+
+            //app.UseAuthorization();
+
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
+            });
         }
     }
 }

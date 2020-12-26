@@ -10,14 +10,15 @@ namespace FundooModelLayer
     {
         [Key]
         public int CollaboratorId { get; set; }
-        public string Email { get; set; }
+        public string RecieverEmail { get; set; }
+
+        public string SenderEmail { get; set; }
+
         public int NoteId { get; set; }
         [ForeignKey("NoteId")]
         public virtual Note Note { get; set; }
 
-        public int AccountId { get; set; }
-        [ForeignKey("AccountId")]
-        public virtual Account Account { get; set; }
+        
 
     }
 }

@@ -25,5 +25,6 @@ namespace FundooModelLayer
         public string Password { get; set; }
 
         public virtual List<Note> Note { get; set;}
+       
     }
 }

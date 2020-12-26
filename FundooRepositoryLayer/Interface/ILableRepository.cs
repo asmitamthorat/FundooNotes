@@ -8,8 +8,10 @@ namespace FundooRepositoryLayer
     public interface ILableRepository
     {
 
-      Lable AddLable(int AccountId, int NoteId, Lable lable);
+        Lable AddLable(int AccountId, int NoteId, Lable lable);
 
         int DeleteLable(int LableId);
+
+        Lable GetLabel(int LabelId);
     }
 }

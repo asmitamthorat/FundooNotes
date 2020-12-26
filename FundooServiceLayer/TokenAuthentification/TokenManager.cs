@@ -46,7 +46,7 @@ namespace FundooServiceLayer.TokenAuthentification
                 ValidateLifetime = true,
                 ValidateAudience = false,
                 ValidateIssuer = false,
-                ClockSkew = TimeSpan.FromMinutes(12000)
+                ClockSkew = TimeSpan.FromMinutes(12000000)
             }, out SecurityToken validatedToken);
             return claims;
         }
