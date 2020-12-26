@@ -1,5 +1,5 @@
 ﻿
-using Cashing;
+
 using FundooRepositoryLayer;
 using FundooServiceLayer;
 using FundooServiceLayer.EmailService;
@@ -38,16 +38,16 @@ namespace FundooNotes
                .GetSection("EmailConfiguration")
                .Get<EmailConfiguration>();
 
-            var cacheSettings = Configuration.GetSection("CacheSettings").Get<CacheSettings>();
-            services.AddSingleton(cacheSettings);
-            if (cacheSettings.IsEnabled)
-            {
-                services.AddStackExchangeRedisCache(options => options.Configuration = cacheSettings.ConnectionString);
-                services.AddSingleton<IResponseCacheService, ResponseCacheService>();
-            }
+            //var cacheSettings = Configuration.GetSection("CacheSettings").Get<CacheSettings>();
+            //services.AddSingleton(cacheSettings);
+            //if (cacheSettings.IsEnabled)
+            //{
+            //    services.AddStackExchangeRedisCache(options => options.Configuration = cacheSettings.ConnectionString);
+            //    services.AddSingleton<IResponseCacheService, ResponseCacheService>();
+            //}
 
             services.AddSingleton(emailConfig);
-           // services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             services.AddDbContext<FundooDBContext>(options=>options.UseSqlServer(Configuration.GetConnectionString("UserDbConnection")));
             services.AddScoped<INotesRepository, NotesRepository>();
             services.AddScoped<INoteService, NoteService>();
@@ -61,7 +61,7 @@ namespace FundooNotes
             services.AddScoped<IEmailSender, EmailSender>();
             services.AddScoped<IMSMQ, MSMQ>();
             services.AddScoped<IMSMQForMail, MSMQForMail>();
-            services.AddControllers();
+           
            
 
             services.AddCors(options => options.AddDefaultPolicy(
@@ -104,24 +104,28 @@ namespace FundooNotes
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
 
 
-
-
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            app.UseStaticFiles();
-
-            app.UseHttpsRedirection();
-
-            app.UseRouting();
-
-            app.UseSwagger();
-
-            //app.UseAuthorization();
-
-            app.UseEndpoints(endpoints =>
+           
+           
+            if (env.IsDevelopment())
             {
-                endpoints.MapControllers();
-            });
+                app.UseDeveloperExceptionPage();
+                app.UseSwagger();
+                app.UseSwaggerUI(c =>
+                {
+                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "MyAPI V1");
+                });
+            }
+            else
+            {
+                app.UseHsts();
+            }
+            app.UseStaticFiles();
+            app.UseHttpsRedirection();
+            app.UseMvc();
         }
+
+
     }
 }

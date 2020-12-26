@@ -1,5 +1,5 @@
 ﻿
-using Cashing;
+
 using FundooModelLayer;
 using FundooServiceLayer;
 using FundooServiceLayer.MSMQService;
@@ -28,7 +28,7 @@ namespace FundooNotes.Controllers
         [HttpGet]
         [Route("GetNotes")]
         [TokenAuthenticationFilter]
-        [Cached(600)]
+      //  [Cached(600)]
         public ActionResult GetNotes() 
         {
             try {
