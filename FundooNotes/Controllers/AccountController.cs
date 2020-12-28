@@ -10,6 +10,8 @@ using System.Threading.Tasks;
 
 namespace FundooNotes.Controllers
 {
+    [Route("api/[controller]")]
+    [ApiController]
     public class AccountController:ControllerBase
     {
         IRegistrationService _registrationService;
@@ -23,7 +25,7 @@ namespace FundooNotes.Controllers
 
 
         [HttpPost]
-        [Route("RegisterUser")]
+       
         public ActionResult RegisterUser([FromBody]Account account)
         {
             Account user = _registrationService.RegisterUser(account);

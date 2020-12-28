@@ -11,7 +11,7 @@ namespace FundooModelLayer
         [Key]
         public int AccountId { get; set; }
 
-        [Required]
+       
         [Column(TypeName ="varchar(50)")]
         public string Name { get; set; }
 

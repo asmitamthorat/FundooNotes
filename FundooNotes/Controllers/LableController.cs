@@ -11,6 +11,8 @@ using System.Threading.Tasks;
 
 namespace FundooNotes.Controllers
 {
+    [Route("api/[controller]")]
+    [ApiController]
     public class LableController:ControllerBase
     {
         private ILableService _lableService;
@@ -22,7 +24,6 @@ namespace FundooNotes.Controllers
         }
 
         [HttpPost]
-        [Route("AddLable")]
         [TokenAuthenticationFilter]
         public ActionResult AddLable(int NoteId,[FromBody] Lable lable)
         {
@@ -45,7 +46,6 @@ namespace FundooNotes.Controllers
         }
 
         [HttpDelete]
-        [Route("DeleteLable")]
         [TokenAuthenticationFilter]
         public ActionResult DeleteLable(int LableId)
         {
@@ -64,7 +64,6 @@ namespace FundooNotes.Controllers
         }
 
         [HttpGet]
-        [Route("GetLable")]
         [TokenAuthenticationFilter]
         public ActionResult GetLable(int LableId) 
         {

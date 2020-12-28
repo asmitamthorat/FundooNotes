@@ -8,6 +8,8 @@ using System.Net;
 
 namespace FundooNotes.Controllers
 {
+    [Route("api/[controller]")]
+    [ApiController]
     public class CollaboratorController:ControllerBase
     {
         private ICollaboratorService _collaboratorService;
@@ -19,7 +21,6 @@ namespace FundooNotes.Controllers
         }
 
         [HttpPost]
-        [Route("AddCollaborator")]
         [TokenAuthenticationFilter]
         public IActionResult AddCollaborator([FromBody] Collaborator collaboratorModel)
         {
@@ -46,7 +47,6 @@ namespace FundooNotes.Controllers
         }
 
         [HttpDelete]
-        [Route("DeleteCollaborator")]
         [TokenAuthenticationFilter]
         public IActionResult DeleteCollaborator(int CollaboratorId)
         {
@@ -64,7 +64,6 @@ namespace FundooNotes.Controllers
         }
 
         [HttpGet]
-        [Route("GetCollaborator")]
         [TokenAuthenticationFilter]
         public IActionResult GetCollaborator(int CollaboratorId) 
         {

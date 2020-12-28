@@ -38,14 +38,6 @@ namespace FundooNotes
                .GetSection("EmailConfiguration")
                .Get<EmailConfiguration>();
 
-            //var cacheSettings = Configuration.GetSection("CacheSettings").Get<CacheSettings>();
-            //services.AddSingleton(cacheSettings);
-            //if (cacheSettings.IsEnabled)
-            //{
-            //    services.AddStackExchangeRedisCache(options => options.Configuration = cacheSettings.ConnectionString);
-            //    services.AddSingleton<IResponseCacheService, ResponseCacheService>();
-            //}
-
             services.AddSingleton(emailConfig);
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             services.AddDbContext<FundooDBContext>(options=>options.UseSqlServer(Configuration.GetConnectionString("UserDbConnection")));
@@ -61,17 +53,18 @@ namespace FundooNotes
             services.AddScoped<IEmailSender, EmailSender>();
             services.AddScoped<IMSMQ, MSMQ>();
             services.AddScoped<IMSMQForMail, MSMQForMail>();
-           
-           
+            services.AddDistributedRedisCache(option =>
+            {
+                option.Configuration = "localhost:6379";
+                option.InstanceName = "FundooNotes";
+            });
+
+
 
             services.AddCors(options => options.AddDefaultPolicy(
                 builder => builder.AllowAnyOrigin().AllowAnyHeader().AllowCredentials().AllowAnyMethod()
                 ));
 
-            //services.AddSwaggerGen(c =>
-            //{
-            //    c.SwaggerDoc("v1", new Info { Title = "Fundoo API", Version = "v1" });
-            //});
             services.AddSwaggerGen(options =>
             {
                 options.SwaggerDoc("v1", new OpenApiInfo { Title = "FundooApp API", Version = "v1" });
@@ -102,8 +95,6 @@ namespace FundooNotes
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-
-
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
            
