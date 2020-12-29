@@ -82,7 +82,6 @@ namespace FundooNotes.Controllers
                 }
                 else
                 {
-                
                     var Notes = JsonConvert.DeserializeObject<List<NotesViewModel>>(Chache);
                   
                     NotesViewModel note1 = new NotesViewModel {NoteId=AddNote.NoteId, Title=AddNote.Title,Description=AddNote.Description, Color = AddNote.Color,Image=AddNote.Image,IsPin=AddNote.IsPin,Remainder=AddNote.Remainder };
@@ -94,8 +93,6 @@ namespace FundooNotes.Controllers
                 _msmq.AddToQueue(AccountId + " " + "Note Added " + "  " + System.DateTime.Now.ToString());
                 this._distrubutedCache.Remove(key);
                 return Ok(new ServiceResponse<Note> { StatusCode = (int)HttpStatusCode.OK, Message = "successful", Data = AddNote });
-               
-                
             }
             catch (Exception)
             {
@@ -131,7 +128,6 @@ namespace FundooNotes.Controllers
             {
                 return BadRequest(new ServiceResponse<List<Note>> { StatusCode = (int)HttpStatusCode.BadRequest, Message = "Page Not Found", Data = null });
             }
-            
         }
 
         [HttpDelete]
@@ -141,8 +137,7 @@ namespace FundooNotes.Controllers
             int result;
             try {
                 var Chache = this._distrubutedCache.GetString(key);
-                var AccountId = Convert.ToInt32(HttpContext.Items["userId"]);
-               
+                var AccountId = Convert.ToInt32(HttpContext.Items["userId"]);  
                 if (Chache == null)
                 {
                    result = _service.DeleteNote(AccountId, NoteId);
@@ -155,30 +150,45 @@ namespace FundooNotes.Controllers
                     Notes.Remove(note);
                     var jsonModel = JsonConvert.SerializeObject(Notes);
                     this._distrubutedCache.SetString(key, jsonModel);
-                    
                 }
-               
                 return Ok(new ServiceResponse<int> { StatusCode = (int)HttpStatusCode.OK, Message = "Deleted Successfully", Data = result });
             }
             catch (Exception) 
             {
                 return BadRequest(new ServiceResponse<List<int>> { StatusCode = (int)HttpStatusCode.BadRequest, Message = "Page Not Found", Data = null });
             }
-           
         }
 
         [HttpPut]
         [TokenAuthenticationFilter]
         public ActionResult UpdateNote(int NoteId, [FromBody] Note note) 
         {
-            try 
+            try
             {
-
                 var AccountId = Convert.ToInt32(HttpContext.Items["userId"]);
-                var result = _service.UpdateNote(AccountId, NoteId, note);
-                if (result == null)
+                var Chache = this._distrubutedCache.GetString(key);
+                var result=new Note();
+                if (Chache == null)
                 {
-                    return NotFound(new ServiceResponse<List<Note>> { StatusCode = (int)HttpStatusCode.NotFound, Message = "Internal Server Error", Data = null });
+                     result = _service.UpdateNote(AccountId, NoteId, note);
+                    if (result == null)
+                    {
+                        return NotFound(new ServiceResponse<List<Note>> { StatusCode = (int)HttpStatusCode.NotFound, Message = "Internal Server Error", Data = null });
+                    }
+                }
+                else
+                {
+                    result = _service.UpdateNote(AccountId, NoteId, note);
+                    var Notes = JsonConvert.DeserializeObject<List<NotesViewModel>>(Chache);
+                    var newNote = Notes.FirstOrDefault(Note => Note.NoteId == NoteId);
+
+                    newNote.Title = note.Title;
+                    newNote.Image = note.Image;
+                    newNote.IsPin = note.IsPin;
+                    newNote.Remainder = note.Remainder;
+                    newNote.Description = note.Description;
+                    newNote.Color = note.Color;
+                   return Ok(new ServiceResponse<Note> { StatusCode = (int)HttpStatusCode.OK, Message = "Updated Successfully", Data = result });
                 }
                 _msmq.AddToQueue(AccountId + " " + "Note Updated " + "  " + System.DateTime.Now.ToString());
                 return Ok(new ServiceResponse<Note> { StatusCode = (int)HttpStatusCode.OK, Message = "Updated Successfully", Data = result });
@@ -187,7 +197,8 @@ namespace FundooNotes.Controllers
             {
                 return BadRequest(new ServiceResponse<List<Note>> { StatusCode = (int)HttpStatusCode.BadRequest, Message = "Page Not Found", Data = null });
             }
-           
         }
+           
     }
 }
+
