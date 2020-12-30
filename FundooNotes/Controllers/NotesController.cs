@@ -63,12 +63,9 @@ namespace FundooNotes.Controllers
         }
 
         [HttpPost]
-        //[HttpPost("upload")]
         [TokenAuthenticationFilter]
         public ActionResult AddNote([FromForm] NoteForCloud note)
         {
-            
-
             var AccountId = Convert.ToInt32(HttpContext.Items["userId"]);
             var email = Convert.ToString(HttpContext.Items["email"]);
             try

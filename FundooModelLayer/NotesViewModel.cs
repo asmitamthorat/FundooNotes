@@ -14,13 +14,9 @@ namespace FundooModelLayer
         public string Color { get; set; }
         public string Image { get; set; }
         public DateTime? Remainder { get; set; }
-
         public string label { get; set; }
-
         public int AccountId { get; set; }
         [ForeignKey("AccountId")]
         public virtual Account Account { get; set; }
-
-
     }
 }

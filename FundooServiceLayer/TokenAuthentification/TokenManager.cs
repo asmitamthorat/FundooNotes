@@ -21,6 +21,11 @@ namespace FundooServiceLayer.TokenAuthentification
             secretKey = Encoding.ASCII.GetBytes(cofiguration.GetSection("JwtSecretKey").Value);
         }
 
+        /// <summary>
+        /// Generates the token.
+        /// </summary>
+        /// <param name="account">The account.</param>
+        /// <returns></returns>
         public string GenerateToken(Account account)
         {
             var tokenDescriptor = new SecurityTokenDescriptor
@@ -36,7 +41,11 @@ namespace FundooServiceLayer.TokenAuthentification
               token = tokenHandler.WriteToken(tokenHandler.CreateToken(tokenDescriptor));
             return token;
         }
-
+        /// <summary>
+        /// Gets the principal.
+        /// </summary>
+        /// <param name="token">The token.</param>
+        /// <returns></returns>
         public ClaimsPrincipal GetPrincipal(String token)
         {
             var claims = tokenHandler.ValidateToken(token, new TokenValidationParameters
@@ -46,11 +55,15 @@ namespace FundooServiceLayer.TokenAuthentification
                 ValidateLifetime = true,
                 ValidateAudience = false,
                 ValidateIssuer = false,
-                ClockSkew = TimeSpan.FromMinutes(12000000)
+                ClockSkew = TimeSpan.FromMinutes(120000)
             }, out SecurityToken validatedToken);
             return claims;
         }
-
+        /// <summary>
+        /// Validates the token.
+        /// </summary>
+        /// <param name="token">The token.</param>
+        /// <returns></returns>
         public int ValidateToken(string token)
         {
             ClaimsPrincipal principal = GetPrincipal(token);

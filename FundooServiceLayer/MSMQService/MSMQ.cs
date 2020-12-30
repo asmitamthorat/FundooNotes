@@ -22,7 +22,10 @@ namespace FundooServiceLayer.MSMQService
                 MessageQueue.Create(this.messageQueue.Path);
             }
         }
-
+        /// <summary>
+        /// Adds to queue.
+        /// </summary>
+        /// <param name="message">The message.</param>
         public void AddToQueue(string message)
         {
             this.messageQueue.Formatter = new XmlMessageFormatter(new Type[] { typeof(string) });
@@ -48,11 +51,6 @@ namespace FundooServiceLayer.MSMQService
                 var msg = this.messageQueue.EndReceive(e.AsyncResult);
 
                 string data = msg.Body.ToString();
-
-                // Process the logic be sending the message
-
-                // Restart the asynchronous receive operation.
-                //_emailSender.SendEmail(message);
                 using (System.IO.StreamWriter file = new System.IO.StreamWriter(@"C:\Users\com\Desktop\FundooUsingAsp.net\FundooNotes\FundooServiceLayer\MSMQService\MSMQText.txt", true))
                 {
                     file.WriteLine(data);

@@ -26,7 +26,6 @@ namespace FundooNotes.Controllers
         {
             try
             {
-
                 var AccountId = Convert.ToInt32(HttpContext.Items["userId"]);
                 collaboratorModel.SenderEmail = Convert.ToString(HttpContext.Items["email"]);
                 Collaborator collaborator = _collaboratorService.AddCollaborator(AccountId, collaboratorModel.SenderEmail, collaboratorModel);

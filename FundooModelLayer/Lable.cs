@@ -14,7 +14,5 @@ namespace FundooModelLayer
         public int NoteId { get; set; }
         [ForeignKey("NoteId")]
         public virtual Note Note { get; set; }
-
-
     }
 }

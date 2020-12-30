@@ -42,7 +42,6 @@ namespace FundooNotes.Controllers
             {
                 return BadRequest(new ServiceResponse<Account> { StatusCode = (int)HttpStatusCode.BadRequest, Message = "Page Not Found", Data = null });
             }
-           
         }
 
         [HttpPost]

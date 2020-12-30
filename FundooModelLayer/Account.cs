@@ -10,21 +10,15 @@ namespace FundooModelLayer
     {
         [Key]
         public int AccountId { get; set; }
-
-       
         [Column(TypeName ="varchar(50)")]
         public string Name { get; set; }
-
         [Required]
         [MaxLength(100)]
         public string EmailId { get; set; }
-
         [Required]
         [Column(TypeName ="BigInt")]
         public long PhoneNumber { get; set; }
         public string Password { get; set; }
-
         public virtual List<Note> Note { get; set;}
-       
     }
 }

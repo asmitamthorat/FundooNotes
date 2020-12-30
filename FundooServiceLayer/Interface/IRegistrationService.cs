@@ -8,7 +8,6 @@ namespace FundooServiceLayer
     public interface IRegistrationService
     {
         Account RegisterUser(Account account);
-
         string LoginUser(Account account);
     }
 }
