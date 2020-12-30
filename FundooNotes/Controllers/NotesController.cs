@@ -1,6 +1,4 @@
-﻿
-
-using FundooModelLayer;
+﻿using FundooModelLayer;
 using FundooServiceLayer;
 using FundooServiceLayer.MSMQService;
 using FundooServiceLayer.TokenAuthentification;
@@ -51,7 +49,7 @@ namespace FundooNotes.Controllers
                     {
                         var jsonModel = JsonConvert.SerializeObject(notes);
                         this._distrubutedCache.SetString(key, jsonModel);
-                        return Ok(new ServiceResponse<List<NotesViewModel>> { StatusCode = (int)HttpStatusCode.OK, Message = "successful", Data = notes });
+                        return Ok(new ServiceResponse<List<NotesViewModel>> { StatusCode = (int)HttpStatusCode.Created, Message = "successful", Data = notes });
                     }
                 }
                 var model = JsonConvert.DeserializeObject<List<NotesViewModel>>(Chache);
@@ -65,14 +63,19 @@ namespace FundooNotes.Controllers
         }
 
         [HttpPost]
+        //[HttpPost("upload")]
         [TokenAuthenticationFilter]
-        public ActionResult AddNote([FromBody] Note note)
+        public ActionResult AddNote([FromForm] NoteForCloud note)
         {
+            
+
             var AccountId = Convert.ToInt32(HttpContext.Items["userId"]);
+            var email = Convert.ToString(HttpContext.Items["email"]);
             try
             {
                 var Chache = this._distrubutedCache.GetString(key);
-                Note AddNote = _service.AddNote(AccountId, note);
+
+                Note AddNote = _service.AddNote(AccountId, note,email);
                 if (Chache == null)
                 {
                     if (AddNote == null)
@@ -88,7 +91,7 @@ namespace FundooNotes.Controllers
                     Notes.Add(note1);
                     var jsonModel = JsonConvert.SerializeObject(Notes);
                     this._distrubutedCache.SetString(key, jsonModel);
-                    return Ok(new ServiceResponse<List<NotesViewModel>> { StatusCode = (int)HttpStatusCode.OK, Message = "successful", Data = Notes });
+                    return Ok(new ServiceResponse<List<NotesViewModel>> { StatusCode = (int)HttpStatusCode.Created, Message = "successful", Data = Notes });
                 }
                 _msmq.AddToQueue(AccountId + " " + "Note Added " + "  " + System.DateTime.Now.ToString());
                 this._distrubutedCache.Remove(key);
@@ -122,7 +125,7 @@ namespace FundooNotes.Controllers
                 }
                 var Notes=JsonConvert.DeserializeObject<List<NotesViewModel>>(Chache);
                 var note=Notes.FirstOrDefault(Note => Note.NoteId == NoteId );
-                return Ok(new ServiceResponse<NotesViewModel> { StatusCode = (int)HttpStatusCode.OK, Message = "successful", Data = note });
+                return Ok(new ServiceResponse<NotesViewModel> { StatusCode = (int)HttpStatusCode.Created, Message = "successful", Data = note });
             }
             catch (Exception) 
             {
@@ -188,7 +191,7 @@ namespace FundooNotes.Controllers
                     newNote.Remainder = note.Remainder;
                     newNote.Description = note.Description;
                     newNote.Color = note.Color;
-                   return Ok(new ServiceResponse<Note> { StatusCode = (int)HttpStatusCode.OK, Message = "Updated Successfully", Data = result });
+                   return Ok(new ServiceResponse<Note> { StatusCode = (int)HttpStatusCode.Created, Message = "Updated Successfully", Data = result });
                 }
                 _msmq.AddToQueue(AccountId + " " + "Note Updated " + "  " + System.DateTime.Now.ToString());
                 return Ok(new ServiceResponse<Note> { StatusCode = (int)HttpStatusCode.OK, Message = "Updated Successfully", Data = result });
@@ -197,8 +200,7 @@ namespace FundooNotes.Controllers
             {
                 return BadRequest(new ServiceResponse<List<Note>> { StatusCode = (int)HttpStatusCode.BadRequest, Message = "Page Not Found", Data = null });
             }
-        }
-           
+        }   
     }
 }
 

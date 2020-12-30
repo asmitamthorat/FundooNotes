@@ -34,16 +34,14 @@ namespace FundooNotes.Controllers
                 {
                     return NotFound(new ServiceResponse<Collaborator> { StatusCode = (int)HttpStatusCode.NotFound, Message = "Internal Server Error", Data = null });
                 }
-               // _msmq.AddToQueue(collaboratorModel.RecieverEmail + " " + "Collaborated Successfully by" + collaboratorModel.SenderEmail + "  " + System.DateTime.Now.ToString());
+                _msmq.AddToQueue(collaboratorModel.RecieverEmail + " " + "Collaborated Successfully by" + collaboratorModel.SenderEmail + "  " + System.DateTime.Now.ToString());
                 return Ok(new ServiceResponse<Collaborator> { StatusCode = (int)HttpStatusCode.OK, Message = "Added Successfully", Data = collaborator });
 
             }
             catch (Exception)
             {
                 return BadRequest(new ServiceResponse<Collaborator> { StatusCode = (int)HttpStatusCode.BadRequest, Message = "Page Not Found", Data = null });
-
             }
-
         }
 
         [HttpDelete]
@@ -60,7 +58,6 @@ namespace FundooNotes.Controllers
             {
                 return BadRequest(new ServiceResponse<Collaborator> { StatusCode = (int)HttpStatusCode.BadRequest, Message = "Page Not Found", Data = null });
             }
-           
         }
 
         [HttpGet]
@@ -74,14 +71,12 @@ namespace FundooNotes.Controllers
                 {
                     return NotFound(new ServiceResponse<Collaborator> { StatusCode = (int)HttpStatusCode.NotFound, Message = "Internal Server Error", Data = null });
                 }
-               // _msmq.AddToQueue(result + " " + "Collaborator Deleted " + "  " + System.DateTime.Now.ToString());
                 return Ok(new ServiceResponse<Collaborator> { StatusCode = (int)HttpStatusCode.OK, Message = "Added Successfully", Data = result });
             }
             catch (Exception)
             {
                 return BadRequest(new ServiceResponse<Collaborator> { StatusCode = (int)HttpStatusCode.BadRequest, Message = "Page Not Found", Data = null });
-            }
-           
+            }  
         }
     }
 }

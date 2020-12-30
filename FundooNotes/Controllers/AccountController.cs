@@ -16,7 +16,7 @@ namespace FundooNotes.Controllers
     {
         IRegistrationService _registrationService;
         IMSMQ _mamq;
-      //  MSMQ mSMQ = new MSMQ();
+
         public AccountController(IRegistrationService registrationService,IMSMQ msmq) 
         {
             _registrationService = registrationService;

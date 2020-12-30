@@ -2,6 +2,7 @@
 
 using FundooRepositoryLayer;
 using FundooServiceLayer;
+using FundooServiceLayer.CoundForImages;
 using FundooServiceLayer.EmailService;
 using FundooServiceLayer.MSMQService;
 using FundooServiceLayer.TokenAuthentification;
@@ -37,8 +38,11 @@ namespace FundooNotes
             EmailConfiguration emailConfig = Configuration
                .GetSection("EmailConfiguration")
                .Get<EmailConfiguration>();
-
             services.AddSingleton(emailConfig);
+
+            var cloudConfigurations = Configuration.GetSection("Cloudinary").Get<CloudConfiguration>();
+            services.AddSingleton(cloudConfigurations);
+           
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             services.AddDbContext<FundooDBContext>(options=>options.UseSqlServer(Configuration.GetConnectionString("UserDbConnection")));
             services.AddScoped<INotesRepository, NotesRepository>();
@@ -53,6 +57,7 @@ namespace FundooNotes
             services.AddScoped<IEmailSender, EmailSender>();
             services.AddScoped<IMSMQ, MSMQ>();
             services.AddScoped<IMSMQForMail, MSMQForMail>();
+            services.AddScoped<ICloudForImages, CouldForImages>();
             services.AddDistributedRedisCache(option =>
             {
                 option.Configuration = "localhost:6379";

@@ -42,6 +42,11 @@ namespace FundooRepositoryLayer
         public Note AddNote(int AccountId, Note note) 
         {
             note.AccountId = AccountId;
+            //var result = _context.Note.Add(note);
+            //_context.SaveChanges();
+            //return result.Entity;
+            // note.AccountId = AccountId;
+            // Note note = new Note { Title=noteFormSwagger.Title, IsPin=noteFormSwagger.IsPin, Color=noteFormSwagger.Color, Description=noteFormSwagger.Description,Remainder=noteFormSwagger.Remainder };
             var result = _context.Note.Add(note);
             _context.SaveChanges();
             return result.Entity;

@@ -16,7 +16,6 @@ namespace FundooRepositoryLayer
 
         public Account RegisterUser(Account account)
         {
-           
             var result = _context.Account.Add(account);
             _context.SaveChanges();
             return result.Entity;
@@ -27,7 +26,6 @@ namespace FundooRepositoryLayer
             Account result = _context.Account.FirstOrDefault(Account=>Account.EmailId==account.EmailId && Account.Password==account.Password);
             return result;
         }
-
     }
 }
 

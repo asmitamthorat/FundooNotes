@@ -1,5 +1,6 @@
 ﻿using FundooModelLayer;
 using FundooRepositoryLayer;
+using FundooServiceLayer.CoundForImages;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -9,9 +10,11 @@ namespace FundooServiceLayer
     public class NoteService:INoteService
     {
         private INotesRepository _notesRepository;
-        public NoteService( INotesRepository notesRepository) 
+        private ICloudForImages _cloudForImages;
+        public NoteService( INotesRepository notesRepository,ICloudForImages cloudForImages) 
         {
             _notesRepository = notesRepository;
+            _cloudForImages = cloudForImages;
         }
 
         public List<NotesViewModel> GetNotes(int AccountId)
@@ -21,8 +24,11 @@ namespace FundooServiceLayer
             return _notesRepository.GetNotes( AccountId);
         }
 
-        public Note AddNote(int AccountId, Note note) 
+        public Note AddNote(int AccountId, NoteForCloud noteFromCloud, string email) 
         {
+            string url = _cloudForImages.UploadToCloud(noteFromCloud.Image,email);
+            Note note = new Note {Title=noteFromCloud.Title,Description=noteFromCloud.Description,IsPin=noteFromCloud.IsPin,Remainder=noteFromCloud.Remainder,
+                                  Image=url};
             return _notesRepository.AddNote(AccountId, note);
         }
 

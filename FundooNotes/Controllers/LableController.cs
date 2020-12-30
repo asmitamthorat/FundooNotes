@@ -41,15 +41,13 @@ namespace FundooNotes.Controllers
             catch (Exception)
             {
                 return BadRequest(new ServiceResponse<Lable> { StatusCode = (int)HttpStatusCode.BadRequest, Message = "Page Not Found", Data = null });
-            }
-           
+            } 
         }
 
         [HttpDelete]
         [TokenAuthenticationFilter]
         public ActionResult DeleteLable(int LableId)
         {
-           
             try 
             {
                 var AccountId = Convert.ToInt32(HttpContext.Items["userId"]);
@@ -81,11 +79,8 @@ namespace FundooNotes.Controllers
             catch (Exception)
             {
                 return BadRequest(new ServiceResponse<Lable> { StatusCode = (int)HttpStatusCode.BadRequest, Message = "Page Not Found", Data = null });
-            }
-           
+            }  
         }
-        
-
     }
 }
 

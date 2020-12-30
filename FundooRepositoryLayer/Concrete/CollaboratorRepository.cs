@@ -33,11 +33,7 @@ namespace FundooRepositoryLayer
         public Collaborator GetCollaborator(int CollaboratorId) 
         {
             Collaborator collaborator = _context.Collaborator.Find(CollaboratorId);
-            //var result = _context.Collaborator.Remove(collaborator);
-            //_context.SaveChanges();
             return collaborator;
         }
-
-
     }
 }
